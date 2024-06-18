@@ -81,7 +81,7 @@ export default function AllProducts() {
               type="text"
               placeholder="Search"
               value={searchquery}
-              onChange={handleSearch} // Handle search input change
+              onChange={handleSearch}
               className="input input-bordered input-success w-full max-w-xs"
             />
           </div>

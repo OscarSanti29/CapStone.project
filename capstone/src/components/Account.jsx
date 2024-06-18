@@ -37,32 +37,36 @@ export default function User() {
 
   return (
     <>
-      {" "}
-      <h1 className="text-2xl font-black">Account</h1>{" "}
-      <img
-        className="rounded-full size-40 my-4"
-        alt="Tailwind CSS Navbar component"
-        src="https://as2.ftcdn.net/v2/jpg/04/10/43/77/1000_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"
-      />
-      <div className="rounded-lg border-4 border-green-950 w-fit text-xl divide-y-4 divide-green-950 divide-opacity-50 my-4">
-        <div>
-          Account Holder: {user && user.name.firstname}{" "}
-          {user && user.name.lastname}
+      <div className="container">
+        {" "}
+        <h1 className="text-2xl font-black">Account</h1>
+        <div className="shadow-box">
+          <img
+            className="rounded-full size-40 "
+            alt="Tailwind CSS Navbar component"
+            src="https://as2.ftcdn.net/v2/jpg/04/10/43/77/1000_F_410437733_hdq4Q3QOH9uwh0mcqAhRFzOKfrCR24Ta.jpg"
+          />
+          <div className="text-2xl">
+            <div>
+              Account Holder: {user && user.name.firstname}{" "}
+              {user && user.name.lastname}
+            </div>
+            <div>
+              <div>Username: {user && user.username}</div>
+              <div>Email: {user && user.email}</div>
+            </div>
+            <div>
+              <ul>
+                Shipping adress:
+                <li>City: {user && user.address.city}</li>
+                <li>Street: {user && user.address.street}</li>
+                <li>Number: {user && user.address.number}</li>
+                <li>Zipcode: {user && user.address.zipcode}</li>
+              </ul>
+            </div>
+            <div>Phone Number: {user && user.phone}</div>
+          </div>
         </div>
-        <div>
-          <div>Username: {user && user.username}</div>
-          <div>Email: {user && user.email}</div>
-        </div>
-        <div>
-          <ul>
-            Shipping adress:
-            <li>City: {user && user.address.city}</li>
-            <li>Street: {user && user.address.street}</li>
-            <li>Number: {user && user.address.number}</li>
-            <li>Zipcode: {user && user.address.zipcode}</li>
-          </ul>
-        </div>
-        <div>Phone Number: {user && user.phone}</div>
       </div>
     </>
   );

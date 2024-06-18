@@ -25,7 +25,7 @@ export default function Navigate() {
       <div className="navbar bg-base-100 bg-green-950">
         <div className="flex-1">
           <Link className="text-white" to="/products">
-            Home
+            The Store
           </Link>
         </div>
         <div className="dropdown dropdown-end">

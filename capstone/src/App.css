@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.shadow-box {
+    margin-top: 50px;
+    box-sizing: border-box;
+    width: fit-content;
+    padding: 50px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(2, 59, 10, 0.989);
+    border-radius: 10%;
+}
+
+.logcontain {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}
+
+.Login {
+    margin-top: 50px;
+    box-sizing: border-box;
+    width: fit-content;
+    padding: 50px;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(2, 59, 10, 0.989);
+    border-radius: 10%;
+}
+
+.logimage {
+    border-radius: 50%;
+    height: 300px;
+}
+
+.homecontainer {
+    display: grid;
+    place-items: center;
+    text-align: center;
+}

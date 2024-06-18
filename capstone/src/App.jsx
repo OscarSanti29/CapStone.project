@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import User from "./components/Account";
 import Cart from "./components/Carts";
 import Navigate from "./components/navigations";
+import Home from "./components/Home";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Navigate />
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/products" element={<AllProducts />} />
           <Route path="/products/:id" element={<Singleproduct />} />
           <Route path="/auth/login" element={<Login />} />
