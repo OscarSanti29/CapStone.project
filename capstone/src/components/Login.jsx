@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Signin } from "../API/functions";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,6 @@ export default function Login() {
       nav("/products");
     }
   }
-
   return (
     <>
       <h1 className="text-center text-2xl font-black my-4">Log in</h1>

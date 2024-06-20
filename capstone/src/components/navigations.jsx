@@ -1,24 +1,15 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Navigate() {
   const [loggedin, setLoggedin] = useState(false);
-  const nav = useNavigate();
-
-  async function handleClick() {
-    localStorage.removeItem("token");
-    setLoggedin(false);
-    nav("/products");
-    alert("You have been logged out");
-  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setLoggedin(true);
     }
-  }, []);
+  }, [loggedin]);
 
   return (
     <>
@@ -49,9 +40,6 @@ export default function Navigate() {
               <>
                 <li>
                   <Link to="/users/:id">Profile</Link>
-                </li>
-                <li>
-                  <button onClick={handleClick}>Log off</button>
                 </li>
                 <li>
                   <Link to="/carts/users/:id"> View cart</Link>

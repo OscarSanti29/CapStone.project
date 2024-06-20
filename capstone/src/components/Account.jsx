@@ -4,9 +4,14 @@ import { getMe } from "../API/functions";
 
 export default function User() {
   const [user, setuser] = useState(null);
+  const [, setLoggedin] = useState(false);
   const [loading, setloading] = useState(true);
   const [token] = useState(JSON.parse(localStorage.getItem("token")));
   const payload = JSON.parse(window.atob(token.split(".")[1]));
+  const [, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
   const nav = useNavigate();
 
   useEffect(() => {
@@ -33,6 +38,15 @@ export default function User() {
   }, [nav, payload.sub, token]);
   if (loading) {
     return <div>Loading....</div>;
+  }
+
+  async function handleClick() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("cart");
+    setCart([]);
+    setLoggedin(false);
+    nav("/products");
+    alert("You have been logged out");
   }
 
   return (
@@ -66,6 +80,12 @@ export default function User() {
             </div>
             <div>Phone Number: {user && user.phone}</div>
           </div>
+          <button
+            className="btn btn-outline btn-error my-4"
+            onClick={handleClick}
+          >
+            Log off
+          </button>
         </div>
       </div>
     </>

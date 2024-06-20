@@ -1,25 +1,32 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useState, useEffect } from "react";
 import { fetchItems } from "../API/functions";
-import ProductDetails from "./details";
+import ProductDetails from "./ProductCard";
 
 export default function AllProducts() {
-  const [items, setitems] = useState([]);
-  const [filtereditems, setFiltereditems] = useState([]);
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [category, setCategory] = useState("");
-  const [searchquery, setSearchquery] = useState("");
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     async function fetchProducts() {
       try {
         const response = await fetchItems();
-        setitems(response);
-        setFiltereditems(response);
+        setItems(response);
+        setFilteredItems(response);
       } catch (error) {
         console.error("Error getting products", error);
       }
     }
     fetchProducts();
   }, []);
+
   useEffect(() => {
     let filtered = items;
     if (category && category !== "All Items") {
@@ -27,26 +34,33 @@ export default function AllProducts() {
         (item) => item.category.toLowerCase() === category.toLowerCase()
       );
     }
-    if (searchquery) {
+    if (searchQuery) {
       filtered = filtered.filter((item) =>
-        item.title.toLowerCase().includes(searchquery.toLowerCase())
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-    setFiltereditems(filtered);
-  }, [category, items, searchquery]);
+    setFilteredItems(filtered);
+  }, [category, items, searchQuery]);
 
   function handleCategory(category) {
     setCategory(category);
   }
 
   function handleSearch(event) {
-    setSearchquery(event.target.value);
+    setSearchQuery(event.target.value);
   }
 
+  const cartTotal = () => {
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  const cartitems = () => {
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
   return (
     <>
       <div className="navbar bg-base-100">
-        <div className="dropdown dropdown-hover ">
+        <div className="dropdown dropdown-hover">
           <div
             tabIndex={0}
             role="button"
@@ -75,23 +89,34 @@ export default function AllProducts() {
             </li>
           </ul>
         </div>
-        <div className="flex-none gap-2">
+        <div className="flex gap-2">
           <div className="form-control">
             <input
               type="text"
               placeholder="Search"
-              value={searchquery}
+              value={searchQuery}
               onChange={handleSearch}
               className="input input-bordered input-success w-full max-w-xs"
             />
           </div>
+          <div className="text-xl font-black">
+            <h1> Total: ${cartTotal()}</h1>
+            <h1>Items in Cart: {cartitems()}</h1>
+          </div>
         </div>
       </div>
+
       <div>
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {filtereditems.map((item) => (
+          {filteredItems.map((item) => (
             <div key={item.id}>
-              <ProductDetails key={item.id} item={item} className="group" />
+              <ProductDetails
+                key={item.id}
+                item={item}
+                cart={cart}
+                setCart={setCart}
+                className="group"
+              />
             </div>
           ))}
         </div>

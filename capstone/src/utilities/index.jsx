@@ -1,21 +1,25 @@
 export async function addtoCart(cart, item) {
-  const itemincart = cart.find((product) => {
-    return product.id === item.id;
-  });
-  if (itemincart) {
-    return cart.map((cartitem) =>
-      cartitem.id === item.id
+  console.log("Initial cart:", cart);
+  console.log("Item to add:", item);
+
+  const itemInCart = cart.find((product) => product.id === item.id);
+  let updatedCart;
+
+  if (itemInCart) {
+    updatedCart = cart.map((cartItem) =>
+      cartItem.id === item.id
         ? {
-            ...cartitem,
-            quantity: cartitem.quantity
-              ? cartitem.quantity + 1
-              : (cartitem.quantity = 1),
+            ...cartItem,
+            quantity: (cartItem.quantity || 0) + 1,
           }
-        : cartitem
+        : cartItem
     );
   } else {
-    return [...cart, { ...item, quantity: 1 }];
+    updatedCart = [...cart, { ...item, quantity: 1 }];
   }
+
+  console.log("Updated cart:", updatedCart);
+  return updatedCart;
 }
 export async function removetoCart(cart, item) {
   const itemincart = cart.find((product) => {
