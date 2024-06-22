@@ -37,7 +37,7 @@ export default function ProductDetails({ item, cart, setCart }) {
   }
 
   return (
-    <div className="card lg:card-side bg-base-100 shadow-xl">
+    <div className="card lg:card-side bg-base-100 shadow-xl shadow-green-950">
       <figure>
         <img src={image} alt={title} />
       </figure>

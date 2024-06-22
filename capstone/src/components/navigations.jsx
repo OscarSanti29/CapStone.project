@@ -44,6 +44,9 @@ export default function Navigate() {
                 <li>
                   <Link to="/carts/users/:id"> View cart</Link>
                 </li>
+                <li>
+                  <Link to="/user/orders"> View orders</Link>
+                </li>
               </>
             ) : (
               <li>

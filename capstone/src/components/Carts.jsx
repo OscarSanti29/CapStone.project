@@ -1,7 +1,6 @@
-import { getCart } from "../API/functions";
+import { getCart, itemDetails } from "../API/functions";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { itemDetails } from "../API/functions";
 import { addtoCart, removetoCart } from "../utilities";
 
 export default function Cart() {
@@ -66,6 +65,7 @@ export default function Cart() {
       console.error("Error removing item from cart:", error);
     }
   };
+
   const handleDelete = (itemId) => {
     const updatedCart = cart.filter((item) => item.id !== itemId);
     setCart(updatedCart);
@@ -86,6 +86,30 @@ export default function Cart() {
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
+  const generateConfirmationNumber = () => {
+    return Math.random().toString(36).substring(2, 10).toUpperCase();
+  };
+
+  const handleOrder = () => {
+    const confirmationNumber = generateConfirmationNumber();
+    const newOrder = { confirmationNumber, items: cart };
+
+    try {
+      const savedOrders = localStorage.getItem("orders");
+      const ordersArray = savedOrders ? JSON.parse(savedOrders) : [];
+      if (!Array.isArray(ordersArray)) {
+        throw new Error("Orders is not an array");
+      }
+      ordersArray.push(newOrder);
+      localStorage.setItem("orders", JSON.stringify(ordersArray));
+    } catch (error) {
+      console.error("Error saving order to localStorage:", error);
+    }
+
+    clearCart();
+    nav("/user/orders");
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -124,7 +148,9 @@ export default function Cart() {
               <form method="dialog">
                 <button className="btn">Close</button>
               </form>
-              <button className="btn mx-4">CheckOut</button>
+              <button className="btn mx-4" onClick={handleOrder}>
+                CheckOut
+              </button>
             </div>
           </div>
         </dialog>
@@ -138,7 +164,10 @@ export default function Cart() {
 
       <div className="flex flex-row">
         {cart.map((item) => (
-          <div key={item.id} className="card w-96 bg-base-100 shadow-xl mx-3">
+          <div
+            key={item.id}
+            className="card w-96 bg-base-100 shadow-xl shadow-green-950 mx-3"
+          >
             <div className="card-body items-center text-center">
               <h1>{item.title}</h1>
               <figure className="px-10 pt-10">
@@ -158,7 +187,7 @@ export default function Cart() {
                 >
                   -
                 </button>
-              </div>{" "}
+              </div>
               <button
                 className="btn btn-outline btn-danger text-xl"
                 onClick={() => handleDelete(item.id)}

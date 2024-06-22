@@ -43,6 +43,8 @@ export default function User() {
   async function handleClick() {
     localStorage.removeItem("token");
     localStorage.removeItem("cart");
+    localStorage.removeItem("Order");
+    localStorage.removeItem("orders");
     setCart([]);
     setLoggedin(false);
     nav("/products");
