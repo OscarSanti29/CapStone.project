@@ -1,6 +1,6 @@
-import { getCart, itemDetails } from "../API/functions";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCart, itemDetails } from "../API/functions";
 import { addtoCart, removetoCart } from "../utilities";
 
 export default function Cart() {
@@ -8,8 +8,9 @@ export default function Cart() {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
+
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(() => {
+  const [token] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem("token"));
     } catch {
@@ -48,6 +49,10 @@ export default function Cart() {
     fetchCart();
   }, [nav, token]);
 
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
   const handleAdd = async (item) => {
     try {
       const updatedCart = await addtoCart(cart, item);
@@ -82,10 +87,6 @@ export default function Cart() {
   const cartItemsCount = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
 
   const generateConfirmationNumber = () => {
     return Math.random().toString(36).substring(2, 10).toUpperCase();

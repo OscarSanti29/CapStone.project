@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function Orders() {
   const [orders, setOrders] = useState(() => {
@@ -12,16 +11,6 @@ export default function Orders() {
       return [];
     }
   });
-
-  const [token, setToken] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("token"));
-    } catch {
-      return null;
-    }
-  });
-
-  const nav = useNavigate();
 
   useEffect(() => {
     try {
@@ -52,31 +41,29 @@ export default function Orders() {
         className="card w-96 bg-base-100 shadow-xl shadow-green-950 mx-3 my-4"
         key={orderIndex}
       >
-        <h2 className="text-xl font-black  mx-3 my-2">
+        <h2 className="text-xl font-black mx-3 my-2">
           Order #{orderIndex + 1}
         </h2>
-        <h2 className="text-xl font-black  mx-3 my-2">
+        <h2 className="text-xl font-black mx-3 my-2">
           Confirmation Number: {order.confirmationNumber}
         </h2>
         <ul className="mx-3">
           {order.items.map((item, itemIndex) => (
-            <>
-              <li key={itemIndex}>
-                <div>
-                  <h3>{item.title}</h3>
-                  <img src={item.image} alt={item.title} width="50" />
-                  <p>Quantity: {item.quantity}</p>
-                  <p>Price: ${item.price}</p>
-                </div>
-              </li>
-            </>
+            <li key={itemIndex}>
+              <div>
+                <h3>{item.title}</h3>
+                <img src={item.image} alt={item.title} width="50" />
+                <p>Quantity: {item.quantity}</p>
+                <p>Price: ${item.price}</p>
+              </div>
+            </li>
           ))}
         </ul>
-        <div className="text-xl font-black  mx-3 my-2">
+        <div className="text-xl font-black mx-3 my-2">
           Total Items: {cartItemsCount(order)}
         </div>
-        <div className="text-xl font-black  mx-3 my-2">
-          Total: {cartTotal(order)}
+        <div className="text-xl font-black mx-3 my-2">
+          Total: ${cartTotal(order)}
         </div>
       </div>
     ));
